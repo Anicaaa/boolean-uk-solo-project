@@ -1,26 +1,37 @@
+// Load our .env file
+require("dotenv").config();
+
+// Import express and cors
 const express = require("express");
-const morgan = require("morgan");
 const cors = require("cors");
 
-const app = express();
+// Request login
+const morgan = require("morgan");
 
-app.use(morgan("dev"));
+// Set up express
+const app = express();
+app.disable("x-powered-by");
 app.use(cors());
 
-const port = 4000;
+// Tell express to use a JSON parser middleware
+app.use(express.json());
+// Tell express to use a URL Encoding middleware
+app.use(express.urlencoded({ extended: true }));
+
+app.use(morgan("dev"));
+
+// Add routes here
 
 app.get("/", (req, res) => {
-  res.render("index");
+  res.send("login");
 });
 
 app.get("/register", (req, res) => {
-  res.render("register");
+  res.send("register");
 });
 
-app.get("/login", (req, res) => {
-  res.render("login");
-});
-
+// Start our API server
+const port = process.env.PORT || 4000;
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}/`);
 });
