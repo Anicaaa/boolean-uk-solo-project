@@ -21,6 +21,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev"));
 
 // Add routes here
+const userRouter = require("./server/routers/user");
+app.use("/user", userRouter);
 
 app.get("/", (req, res) => {
   res.send("login");

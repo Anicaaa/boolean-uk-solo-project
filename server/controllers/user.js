@@ -1,10 +1,10 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-// const { PrismaClient } = require("@prisma/client");
-// const prisma = new PrismaClient();
+const { PrismaClient } = require("@prisma/client");
+const prisma = new PrismaClient();
 
 const register = async (req, res) => {
-  const { name, email, password, confirmPassword } = req.body;
+  const { name, email, password } = req.body;
   console.log("LOOK HERE", req.body);
   const hashedPassword = await bcrypt.hash(password, 10);
   const createdUser = await prisma.user.create({
@@ -12,11 +12,10 @@ const register = async (req, res) => {
       name,
       email,
       password: hashedPassword,
-      confirmPassword: hashedPassword,
     },
   });
 
-  res.json({ data: createdUser });
+  return res.json({ data: createdUser });
 };
 
 const login = async (req, res) => {
@@ -38,13 +37,13 @@ const login = async (req, res) => {
     return res.status(401).json({ error: "Invalid name or password." });
   }
 
-  if (password != confirmPassword) {
+  if (password) {
     return res.status(401).json({ error: "Passwords do not match" });
   }
 
   const token = jwt.sign({ username }, process.env.JWT_SECRET);
 
-  res.json({ data: token });
+  return res.json({ data: token });
 };
 
 module.exports = {
