@@ -24,13 +24,13 @@ app.use(morgan("dev"));
 const userRouter = require("./server/routers/user");
 app.use("/user", userRouter);
 
-app.get("/", (req, res) => {
-  res.send("login");
-});
+// app.get("/", (req, res) => {
+//   res.send("login");
+// });
 
-app.get("/register", (req, res) => {
-  res.send("register");
-});
+// app.get("/register", (req, res) => {
+//   res.send("register");
+// });
 
 // Start our API server
 const port = process.env.PORT || 4000;
