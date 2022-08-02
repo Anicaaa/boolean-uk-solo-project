@@ -29,6 +29,7 @@ const login = async (req, res) => {
       email,
     },
   });
+  console.log("Look here", email, password, foundUser);
 
   if (!foundUser) {
     return res.status(401).json({ error: "Invalid name or password" });
